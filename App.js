@@ -1,49 +1,78 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React from "react"
+import { View, Text, StyleSheet, Image, TouchableOpacity, TouchableWithoutFeedback, StatusBar } from "react-native"
+import { createAppContainer, createBottomTabNavigator, createSwitchNavigator } from "react-navigation"
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import HomeScreen from "./app/index"
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-type Props = {};
-export default class App extends Component<Props> {
+/* a menu */
+class MenuIcon extends React.Component {
   render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
-    );
+      const { name, src } = this.props;
+      return (
+          <View key={name} style={{ margin: 5 }}>
+              <Image
+                  source={src}
+              />
+          </View>
+      );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+
+
+/* 底部导航 */
+const TabNavigatorStack = createBottomTabNavigator(
+  {
+
+      HomeScreen: {
+          screen: HomeScreen,
+          navigationOptions: {
+              tabBarLabel: "首页",
+              tabBarIcon: ({ tintColor, focused }) => (
+                  <MenuIcon
+                    //  src={
+                          // focused
+                          //     ? require("../assets/images/navigateMenuIco/home_live.png")
+                          //     : require("../assets/images/navigateMenuIco/home.png")
+                      //}
+                  />
+              )
+          }
+      }
+
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+  {
+      initialRouteName: "HomeScreen",
+      tabBarOptions: {
+          activeTintColor: "gray",
+          inactiveTintColor: "gray",
+          style: {
+              borderTopColor: "#ececec",
+              borderWidth: 1
+          }
+      }
+  }
+);
+
+/* 生成 */
+const NavigationMain = createAppContainer(TabNavigatorStack);
+
+
+export default class App extends React.Component {
+  render() {
+      return (
+          <View  style={{flex:1}}>
+              <StatusBar
+                  translucent={true}
+                  backgroundColor="transparent"
+                  barStyle="dark-content"
+              />
+              <NavigationMain
+                  // ref={navigatorRef => {
+                  //     NavigationService.setTopLevelNavigator(navigatorRef); //设置顶层路由导航
+                  // }}
+              />
+          </View>
+      );
+  }
+}

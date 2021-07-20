@@ -14,7 +14,7 @@
     "moment": "^2.25.3",
     "openinstall-react-native": "^1.2.1",
     "react": "16.8.3",
-    "react-native": "0.59.8",
+    "react-native": "0.62.3",
     "react-native-camera": "^2.11.0",
     "react-native-clear-app-cache": "^1.0.4",
     "react-native-code-push": "^5.6.0",
